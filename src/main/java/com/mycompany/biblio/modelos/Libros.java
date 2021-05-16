@@ -20,14 +20,9 @@ public class Libros {
     private Date fecha;
     private double precio;
     private String saga;
+    private int prestamo;
 
-    public Libros(Date fecha) {
-        this.fecha = fecha;
-    }
-   
-    
-
-    public Libros(int id, String nombre, String editorial, String autor, String genero,Date fecha, double precio, String saga) {
+    public Libros(int id, String nombre, String editorial, String autor, String genero, Date fecha, double precio, String saga, int prestamo) {
         this.id = id;
         this.nombre = nombre;
         this.editorial = editorial;
@@ -36,8 +31,24 @@ public class Libros {
         this.fecha = fecha;
         this.precio = precio;
         this.saga = saga;
+        this.prestamo = prestamo;
     }
 
+    public int getPrestamo() {
+        return prestamo;
+    }
+
+    public void setPrestamo(int prestamo) {
+        this.prestamo = prestamo;
+    }
+
+    public Libros(Date fecha) {
+        this.fecha = fecha;
+    }
+   
+    
+
+    
     public Libros() {
     }
 
@@ -102,7 +113,8 @@ public class Libros {
     }
     @Override
     public String toString() {
-        return  "id=" + id + ", nombre=" + nombre + ", editorial=" + editorial + ", autor=" + autor + ", genero=" + genero + ", precio=" + precio + ", saga=" + saga ;
+        return  "id=" + id + ", nombre=" + nombre + ", editorial=" + editorial + ", autor=" + autor + ", genero=" + genero + ", precio=" + precio + ", saga=" + saga
+                + "prestado="+prestamo;
     }
 
     public Date getFecha() {

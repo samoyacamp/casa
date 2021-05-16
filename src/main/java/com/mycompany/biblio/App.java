@@ -27,7 +27,7 @@ public class App extends Application {
         stage.show();
 
         // Give the controller access to the main app.
-     // LoginController controller = fxmlLoader.getController();
+        // LoginController controller = fxmlLoader.getController();
     }
 
     static void setUsuario(Usuario u) {
@@ -44,20 +44,27 @@ public class App extends Application {
         scene.setRoot(fxmlLoader.load());
         controller.initLists();
 
-
     }
-    static void loadRegisterWindow() throws IOException{
-        String fxml="register";
+
+    static void loadRegisterWindow() throws IOException {
+        String fxml = "register";
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
 //        Give the controller access to the main app.
         RegistrarController controller = new RegistrarController(user);
         fxmlLoader.setController(controller);
         scene.setRoot(fxmlLoader.load());
 //        scene.setRoot(loadFXML(fxml));
-        
 
-        
-    
+    }
+
+    static void loadPrestaWindow() throws IOException {
+        String fxml = "presta";
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+        PrestamoController controller = new PrestamoController(user);
+        fxmlLoader.setController(controller);
+        scene.setRoot(fxmlLoader.load());
+        controller.initLists();
+
     }
 
     static void setRoot(String fxml) throws IOException {

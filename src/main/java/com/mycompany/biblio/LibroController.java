@@ -10,6 +10,10 @@ import com.mycompany.biblio.DAO.LibroDAO;
 import com.mycompany.biblio.modelos.Genero;
 import com.mycompany.biblio.modelos.Libros;
 import com.mycompany.biblio.modelos.Usuario;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -58,6 +62,8 @@ public class LibroController {
     @FXML
     private TextField saga;
     @FXML
+    private TextField prestamo;
+    @FXML
     private ListView listaLibro;
 
     @FXML
@@ -81,7 +87,7 @@ public class LibroController {
 // genero.getValue().toString()//
             ldao.insertarLibro(new Libros(Integer.parseInt(id.getText()), nombre.getText(), editorial.getText(), autor.getText(),
                     genero.getValue().toString(),
-                    Date.valueOf(fecha.getValue()), Double.parseDouble(precio.getText()), saga.getText()));
+                    Date.valueOf(fecha.getValue()), Double.parseDouble(precio.getText()), saga.getText(),Integer.parseInt(prestamo.getText())));
             initLists();
         } catch (SQLException ex) {
             AlertsUtil.mostrarError("Error al modificar la ruta seleccionada. " + ex.getMessage());
@@ -108,7 +114,7 @@ public class LibroController {
 //    private double precio;
 //    private String saga;
             ldao.modificarLibro(new Libros(Integer.parseInt(id.getText()), nombre.getText(), editorial.getText(), autor.getText(),
-                    genero.getValue().toString(), Date.valueOf(fecha.getValue()), Double.parseDouble(precio.getText()), saga.getText()));
+                    genero.getValue().toString(), Date.valueOf(fecha.getValue()), Double.parseDouble(precio.getText()), saga.getText(),Integer.parseInt(prestamo.getText())));
        initLists();
         } catch (SQLException ex) {
             AlertsUtil.mostrarError("Error al modificar el libro seleccionado");
@@ -215,5 +221,33 @@ public class LibroController {
 
         }
     }
+    @FXML
+    public void loadArticulosFromFile(){
+    File fichero = null;
+            FileReader lector = null;
+            BufferedReader buffer = null;
 
+            try {
+                fichero = new File("articulos.txt");
+                lector = new FileReader(fichero);
+                buffer = new BufferedReader(lector);
+                String linea = null;
+                while ((linea = buffer.readLine()) != null)
+                    System.out.println(linea);
+                
+            } catch (FileNotFoundException fnfe) { 
+                fnfe.printStackTrace();
+            } catch (IOException ioe) { 
+                ioe.printStackTrace(); 
+            } finally {
+                if (buffer != null)
+                try {
+                  buffer.close();
+                }catch (IOException ioe) { 
+                    ioe.printStackTrace();
+                }
+            }
+        }
+        
+    
 }

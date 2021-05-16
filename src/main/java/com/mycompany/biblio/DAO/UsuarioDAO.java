@@ -24,9 +24,11 @@ import java.util.Properties;
  * @author sergi
  */
 public class UsuarioDAO {
-     private Connection conexion;
+
+    private Connection conexion;
+
     public void conectar() throws ClassNotFoundException, SQLException, IOException {
-        
+
         Properties configuration = new Properties();
         configuration.load(new FileInputStream(new File(App.class.getResource("connectionDB.properties").getPath())));
         String host = configuration.getProperty("host");
@@ -38,21 +40,33 @@ public class UsuarioDAO {
         conexion = DriverManager.getConnection("jdbc:mariadb://" + host + ":" + port + "/" + name + "?serverTimezone=UTC",
                 username, password);
     }
+
     public void desconectar() throws SQLException {
         conexion.close();
     }
-    public boolean checkBDUsuario(String nombre, String email, String pwd) throws SQLException{
-        String sql="SELECT * FROM USUARIOS WHERE Nombre=? AND Pwd=? AND email=? LIMIT 1";
+
+    public boolean checkBDAdmin(String nombre, String email, String pwd) throws SQLException {
+        String sql = "SELECT * FROM USUARIOS WHERE Nombre=? AND Pwd=? AND email=? AND PUESTO='admin' LIMIT 1";
         PreparedStatement sentencia = conexion.prepareStatement(sql);
         sentencia.setString(1, nombre);
         sentencia.setString(2, pwd);
         sentencia.setString(3, email);
         ResultSet resultado = sentencia.executeQuery();
-      
+
         return resultado.next();
 
     }
-    
+
+    public boolean checkBDUsuario(String nombre, String email, String pwd) throws SQLException {
+        String sql = "SELECT * FROM USUARIOS WHERE Nombre=? AND Pwd=? AND email=? AND PUESTO='usuario' LIMIT 1";
+        PreparedStatement sentencia = conexion.prepareStatement(sql);
+        sentencia.setString(1, nombre);
+        sentencia.setString(2, pwd);
+        sentencia.setString(3, email);
+        ResultSet resultado = sentencia.executeQuery();
+
+        return resultado.next();
+    }
 //        private String nombre;
 //    private String email;
 //    private String password;
@@ -62,24 +76,21 @@ public class UsuarioDAO {
 //    private String ciudad;
 //    private String provincia;
 //    private String puesto;
-
-
-    public void addUsuario(Usuario user) throws SQLException{
-    String sql = "{call spNewUser (?,?,?,?,?,?,?,?,?)}";
+    public void addUsuario(Usuario user) throws SQLException {
+        String sql = "{call spNewUser (?,?,?,?,?,?,?,?,?)}";
         PreparedStatement sentencia = conexion.prepareStatement(sql);
         sentencia.setInt(1, user.getCodigo_usuarios());
         sentencia.setString(2, user.getNombre());
-        sentencia.setString(3,user.getEmail());
+        sentencia.setString(3, user.getEmail());
         sentencia.setString(4, user.getApellido());
         sentencia.setString(5, user.getPassword());
         sentencia.setString(6, user.getDNI());
         sentencia.setString(7, user.getDomicilio());
         sentencia.setString(8, user.getCiudad());
         sentencia.setString(9, user.getProvincia());
-       
+
         sentencia.executeUpdate();
 
-    
     }
-    
+
 }

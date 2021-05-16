@@ -43,7 +43,7 @@ public class LibroDAO {
     }
 
     public void insertarLibro(Libros libro) throws SQLException {
-        String sql = "{call spNewLibro (?,?,?,?,?,?,?,?)}";
+        String sql = "{call spNewLibro (?,?,?,?,?,?,?,?,?)}";
         PreparedStatement sentencia = conexion.prepareStatement(sql);
         sentencia.setInt(1, libro.getId());
         sentencia.setString(2, libro.getNombre());
@@ -53,6 +53,7 @@ public class LibroDAO {
         sentencia.setDate(6, libro.getFecha());
         sentencia.setDouble(7, libro.getPrecio());
         sentencia.setString(8, libro.getSaga());
+        sentencia.setInt(9, libro.getPrestamo());
         sentencia.executeUpdate();
 
     }
@@ -85,6 +86,7 @@ public class LibroDAO {
             libro.setFecha(resultado.getDate(6));
             libro.setPrecio(resultado.getDouble(7));
             libro.setSaga(resultado.getString(8));
+            libro.setPrestamo(resultado.getInt(9));
             libros.add(libro);
         }
 
@@ -107,7 +109,7 @@ public class LibroDAO {
         CallableStatement sentencia = conexion.prepareCall(sql);
         sentencia.setInt(1, libro.getId());
         sentencia.setString(2, libro.getNombre());
-        sentencia.setString(3,libro.getEditorial());
+        sentencia.setString(3, libro.getEditorial());
         sentencia.setString(4, libro.getAutor());
         sentencia.setString(5, libro.getGenero());
         sentencia.setDate(6, libro.getFecha());
@@ -117,5 +119,17 @@ public class LibroDAO {
         sentencia.execute();
 
 //       
+    }
+
+    public void pedirLibro(Libros libro) throws SQLException {
+        String sql="{call spPedirLibro(?)}";
+        CallableStatement sentencia = conexion.prepareCall(sql);
+       
+        sentencia.execute();
+
+    }
+
+    public void devolverLibro(Libros libro) throws SQLException {
+
     }
 }

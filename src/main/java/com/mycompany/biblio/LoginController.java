@@ -30,12 +30,11 @@ public class LoginController {
     private TextField email;
     @FXML
     private TextField pwd;
-   @FXML
+    @FXML
     private ImageView imagen;
 
-
     @FXML
-    private void login() throws SQLException, IOException {
+    private void login() throws SQLException, IOException, ClassNotFoundException {
         //String usuario = nombre.getText();
         UsuarioDAO login = new UsuarioDAO();
         //Usuario u = new Usuario(-1, nombre.getText(), email.getText(), pwd.getText());
@@ -50,17 +49,26 @@ public class LoginController {
         String pass = pwd.getText();
         String correo = email.getText();
         boolean ok = true;
+        boolean vale =true;
+        
+        
         try {
             login.conectar();
 
-            ok = login.checkBDUsuario(user, correo, pass);
+            ok = login.checkBDAdmin(user, correo, pass);
+            vale = login.checkBDUsuario(user, pass, correo);
             if (ok) {
                 App.loadLibrosWindow();
                 //AlertsUtil.mostrarConfi("Correcto");
-            } else {
-                AlertsUtil.mostrarError("Algo ha fallado");
             }
-        } catch (ClassNotFoundException e) {
+            else if(vale)
+            {
+                App.loadRegisterWindow();
+            }
+            else {
+                App.loadRegisterWindow();
+            }
+        } catch (SQLException e) {
             AlertsUtil.mostrarConfi("whatever");
 
         }
@@ -91,15 +99,15 @@ public class LoginController {
     @FXML
     private void register() throws IOException {
 //        try {
-            App.loadRegisterWindow();
+        App.loadRegisterWindow();
 //        } catch (IOException e) {
 //            AlertsUtil.mostrarError("Algo ha pasao");
 //        }
     }
 
-  public void loadImage(){
+    public void loadImage() {
         Image img = new Image(getClass().getResourceAsStream("/images/P1020615.jpg"));
         imagen.setImage(img);
     }
-    
+
 }

@@ -104,17 +104,18 @@ public class Usuario {
     }
     
     
-    public boolean checkNombre(String nombre){
+        public boolean checkNombre(String nombre){
         return nombre.length() >= 6;
     }
     
-    public boolean checkEmail(String email){
+    public  boolean checkEmail(String email){
         //return email.matches("@+");
         boolean ok = false;
         if (email.matches("[-\\w\\.]+@\\w+\\.\\w+")) 
             ok = true;
         return ok;
     }
+    
     
     public boolean checkPassword(String pwd){
      boolean ok = false;
@@ -123,6 +124,7 @@ public class Usuario {
         return ok;
     }
 
+   
     /**
      * @return the codigo_usuarios
      */
